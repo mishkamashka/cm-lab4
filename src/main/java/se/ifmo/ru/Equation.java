@@ -1,12 +1,16 @@
 package se.ifmo.ru;
 
+import se.ifmo.ru.interpolation.Function;
+
 public enum Equation {
 
-    FIRST("y'= 3sin2y + x"), SECOND("y' = -2y"), THIRD("y = cos(x)");
+    FIRST("y'= 3sin2y + x", Function.FIRST), SECOND("y' = -2y", Function.SECOND), THIRD("y = cos(x)", Function.THIRD);
 
-    private String function;
+    private String equation;
+    private Function function;
 
-    Equation(String function) {
+    Equation(String equation, Function function) {
+        this.equation = equation;
         this.function = function;
     }
 
@@ -25,6 +29,6 @@ public enum Equation {
 
     @Override
     public String toString() {
-        return this.function;
+        return this.equation;
     }
 }
