@@ -4,7 +4,7 @@ import se.ifmo.ru.interpolation.Function;
 
 public enum Equation {
 
-    FIRST("y'= 3sin2y + x", Function.FIRST), SECOND("y' = -2y", Function.SECOND), THIRD("y' = xy^2", Function.THIRD);
+    FIRST("y'= y * x", Function.FIRST), SECOND("y' = e^x + y", Function.SECOND), THIRD("y' = xy^2", Function.THIRD);
 
     private String equation;
     private Function function;
@@ -17,9 +17,9 @@ public enum Equation {
     public double calculateFunction(double x, double y) {
         switch (this) {
             case FIRST:
-                return (3 * Math.sin(2 * y) + x);
+                return (y * x); //y0 = 0
             case SECOND:
-                return (-2 * y); // y(0) = 2; y = 2e^(-2x)
+                return (Math.pow(Math.E, x) * y); // y(0) = 1
             case THIRD:
                 return x * Math.pow(y, 2); //y(0) = 1
             default:

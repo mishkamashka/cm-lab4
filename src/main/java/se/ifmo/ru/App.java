@@ -28,13 +28,15 @@ public class App extends Application {
     final private static NumberAxis yAxis = new NumberAxis();
     final private static LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
     private static ToggleGroup equationsGroup = new ToggleGroup();
-    private static TextField aTextField = new TextField();
-    private static TextField bTextField = new TextField();
-    private static TextField y0TextField = new TextField();
-    private static TextField accuracyTextField = new TextField();
+    private static TextField aTextField = new TextField("0");
+    private static TextField bTextField = new TextField("1");
+    private static TextField y0TextField = new TextField("1");
+    private static TextField accuracyTextField = new TextField("0.1");
 
     private static Double[] xArray;
     private static Double[] yArray;
+    private static int a, b;
+    private static double y0, accuracy;
 
     public static void main(String[] args) {
         launch(args);
@@ -157,7 +159,7 @@ public class App extends Application {
         XYChart.Series series = new XYChart.Series();
         series.setName("Model chart");
 
-        for (double i = 0; i <= 10; i += 0.1) {
+        for (double i = a; i <= b; i += 0.1) {
             XYChart.Data data = new XYChart.Data(i, function.calculateFunction(i));
             Rectangle rectangle = new Rectangle(0, 0);
             rectangle.setVisible(false);
@@ -173,7 +175,7 @@ public class App extends Application {
         XYChart.Series series = new XYChart.Series();
         series.setName("Interpolated chart");
 
-        for (double i = 0; i <= 10; i += 0.1) {
+        for (double i = a; i <= b; i += 0.1) {
             double x = i;
             double y = CubicSplineInterpolation.getInterpolatedFunctionY(i);
 
@@ -203,8 +205,6 @@ public class App extends Application {
                     return;
                 }
 
-                int a, b;
-                double y0, accuracy;
                 try {
                     a = Integer.parseInt(aTextField.textProperty().getValue());
                     b = Integer.parseInt(bTextField.textProperty().getValue());
@@ -236,7 +236,7 @@ public class App extends Application {
     private static boolean isInArray(double x, Double[] xArray) {
         int i = 0;
         while (i < xArray.length) {
-            if (Math.abs(xArray[i] - x) < 0.05)
+            if (Math.abs(xArray[i] - x) < 0.09)
                 return true;
             i++;
         }
