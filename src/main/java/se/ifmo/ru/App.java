@@ -83,16 +83,21 @@ public class App extends Application {
 
         RadioButton equation1 = new RadioButton(Equation.FIRST.toString());
         RadioButton equation2 = new RadioButton(Equation.SECOND.toString());
+        RadioButton equation3 = new RadioButton(Equation.THIRD.toString());
         equation1.setFont(new Font(15));
         equation2.setFont(new Font(15));
+        equation3.setFont(new Font(15));
         equation1.setUserData(Equation.FIRST);
         equation2.setUserData(Equation.SECOND);
+        equation3.setUserData(Equation.THIRD);
         equation1.setToggleGroup(equationsGroup);
         equation2.setToggleGroup(equationsGroup);
+        equation3.setToggleGroup(equationsGroup);
 
         gridPane.add(label, 0, 0);
         gridPane.add(equation1, 0, 1);
         gridPane.add(equation2, 0, 2);
+        gridPane.add(equation3, 0, 3);
     }
 
     private static void addTextFields(GridPane gridPane) {

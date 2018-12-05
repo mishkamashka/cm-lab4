@@ -4,7 +4,7 @@ public class EulerSolver {
 
     int a, b;
     Double[] xArray, yArray;
-    int h;
+    int n;
     Equation equation;
 
     EulerSolver(int a, int b, double y0, double accuracy, Equation equation) {
@@ -15,9 +15,9 @@ public class EulerSolver {
             this.a = a;
             this.b = b;
         }
-        this.h = (int) ((b - a) / accuracy);
-        xArray = new Double[h];
-        yArray = new Double[h];
+        this.n = (int) ((b - a) / accuracy);
+        xArray = new Double[n];
+        yArray = new Double[n];
         xArray[0] = a * 1.0;
         yArray[0] = y0;
         this.equation = equation;
@@ -25,9 +25,9 @@ public class EulerSolver {
     }
 
     private void eulerMethod(){
-        for (int i = 1; i < h; i++) {
-            xArray[a + i] = (a + h * i) * 1.0;
-            yArray[a + i] = yArray[i - 1] + h * equation.calculateFunction(xArray[i - 1], yArray[i - 1]);
+        for (int i = 1; i < n; i++) {
+            xArray[a + i] = (a + n * i) * 1.0;
+            yArray[a + i] = yArray[i - 1] + n * equation.calculateFunction(xArray[i - 1], yArray[i - 1]);
         }
     }
 

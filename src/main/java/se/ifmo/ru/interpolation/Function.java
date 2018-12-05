@@ -1,7 +1,8 @@
 package se.ifmo.ru.interpolation;
+
 public enum Function {
 
-    FIRST("y = x*x"), SECOND("y = 2(e^(-2x))"), THIRD("y = cos(x)");
+    FIRST("y = x*x"), SECOND("y = 2(e^(-2x))"), THIRD("y = 2/(2 - x^2)");
 
     private String function;
 
@@ -16,7 +17,10 @@ public enum Function {
             case SECOND:
                 return (2 * Math.pow(Math.E, (-2 * x)));
             case THIRD:
-                return Math.cos(x);
+                if (Math.pow(x, 2) == 2) {
+                    return 2 / (2 - Math.pow(x, 1.9)); //TODO: zero-check
+                } else
+                    return (2 / (2 - Math.pow(x, 2)));
             default:
                 return 0;
         }
