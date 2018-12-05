@@ -2,7 +2,7 @@ package se.ifmo.ru;
 
 public enum Equation {
 
-    FIRST("y'= 3sin2y + x"), SECOND("y = sin(x)"), THIRD("y = cos(x)");
+    FIRST("y'= 3sin2y + x"), SECOND("y' = -2y"), THIRD("y = cos(x)");
 
     private String function;
 
@@ -15,7 +15,7 @@ public enum Equation {
             case FIRST:
                 return (3 * Math.sin(2 * y) + x);
             case SECOND:
-                return Math.sin(x);
+                return (-2 * y); // y(0) = 2; y = 2e^(-2x)
             case THIRD:
                 return Math.cos(x);
             default:
