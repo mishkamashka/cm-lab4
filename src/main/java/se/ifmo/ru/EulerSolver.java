@@ -1,13 +1,13 @@
 package se.ifmo.ru;
 
-public class EulerMethod {
+public class EulerSolver {
 
     int a, b;
-    double[] xArray, yArray;
+    Double[] xArray, yArray;
     int h;
     Equation equation;
 
-    EulerMethod(int a, int b, double y0, double accuracy, Equation equation) {
+    EulerSolver(int a, int b, double y0, double accuracy, Equation equation) {
         if (a > b) {
             this.a = b;
             this.b = a;
@@ -16,25 +16,26 @@ public class EulerMethod {
             this.b = b;
         }
         this.h = (int) ((b - a) / accuracy);
-        xArray = new double[h];
-        yArray = new double[h];
-        xArray[0] = a;
+        xArray = new Double[h];
+        yArray = new Double[h];
+        xArray[0] = a * 1.0;
         yArray[0] = y0;
         this.equation = equation;
+        this.eulerMethod();
     }
 
-    public void solveEquation(){
-        for (int i = 0; i <= h; i++) {
-            xArray[a + i] = a + h * i;
+    private void eulerMethod(){
+        for (int i = 1; i < h; i++) {
+            xArray[a + i] = (a + h * i) * 1.0;
             yArray[a + i] = yArray[i - 1] + h * equation.calculateFunction(xArray[i - 1], yArray[i - 1]);
         }
     }
 
-    public double[] getxArray() {
+    public Double[] getXArray() {
         return xArray;
     }
 
-    public double[] getyArray() {
+    public Double[] getYArray() {
         return yArray;
     }
 }

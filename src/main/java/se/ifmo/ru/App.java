@@ -28,10 +28,10 @@ public class App extends Application {
     final private static NumberAxis yAxis = new NumberAxis();
     final private static LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
     private static ToggleGroup equationsGroup = new ToggleGroup();
-    private static ToggleGroup testSetsGroup = new ToggleGroup();
     private static TextField aTextField = new TextField();
     private static TextField bTextField = new TextField();
     private static TextField y0TextField = new TextField();
+    private static TextField accuracyTextField = new TextField();
 
     private static Double[] xArray;
     private static Double[] yArray;
@@ -111,7 +111,12 @@ public class App extends Application {
         label.setFont(new Font(15));
         gridPane.add(label, 0, 9);
 
-        Pattern pattern = Pattern.compile("-\\d*|-\\d*+\\.\\d*|\\d*|\\d+\\.\\d*");
+        label = new Label();
+        label.setText("Enter accuracy:");
+        label.setFont(new Font(15));
+        gridPane.add(label, 0, 11);
+
+        Pattern pattern = Pattern.compile("-\\d*|\\d*");
         TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
@@ -123,14 +128,22 @@ public class App extends Application {
         });
         bTextField.setTextFormatter(formatter);
 
+        Pattern pattern1 = Pattern.compile("-\\d*|-\\d*+\\.\\d*|\\d*|\\d+\\.\\d*");
         formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
+            return pattern1.matcher(change.getControlNewText()).matches() ? change : null;
         });
         y0TextField.setTextFormatter(formatter);
+
+        Pattern pattern2 = Pattern.compile("\\d*|\\d+\\.\\d*");
+        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+            return pattern2.matcher(change.getControlNewText()).matches() ? change : null;
+        });
+        accuracyTextField.setTextFormatter(formatter);
 
         gridPane.add(aTextField, 0, 6);
         gridPane.add(bTextField, 0, 8);
         gridPane.add(y0TextField, 0, 10);
+        gridPane.add(accuracyTextField, 0, 12);
 
     }
 
@@ -177,28 +190,29 @@ public class App extends Application {
         okButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
 
-                TestSet testSet;
-                Toggle toggle = testSetsGroup.getSelectedToggle();
-                try {
-                    testSet = (TestSet) toggle.getUserData();
-                } catch (NullPointerException e) {
-                    return;
-                }
-
-                Function function;
+                Equation equation;
                 Toggle toggle1 = equationsGroup.getSelectedToggle();
                 try {
-                    function = (Function) toggle1.getUserData();
+                    equation = (Equation) toggle1.getUserData();
                 } catch (NullPointerException e) {
                     return;
                 }
 
-                testSet.setFunction(function);
-                int n = testSet.setXTestSet().size();
-                xArray = new Double[n];
-                yArray = new Double[n];
-                xArray = testSet.setXTestSet().toArray(xArray);
-                yArray = testSet.setYTestSet().toArray(yArray);
+                int a, b;
+                double y0, accuracy;
+                try {
+                    a = Integer.parseInt(aTextField.textProperty().getValue());
+                    b = Integer.parseInt(bTextField.textProperty().getValue());
+                    y0 = Double.parseDouble(y0TextField.textProperty().getValue());
+                    accuracy = Double.parseDouble(accuracyTextField.textProperty().getValue());
+                } catch (NumberFormatException e) {
+                    return;
+                }
+
+                EulerSolver eulerSolver = new EulerSolver(a, b, y0, accuracy, equation);
+                xArray = eulerSolver.getXArray();
+                yArray = eulerSolver.getYArray();
+
                 CubicSplineInterpolation.createSplines(xArray, yArray, xArray.length);
 
                 if (functionsGridPane.getChildren().size() != 0) {
@@ -207,11 +221,11 @@ public class App extends Application {
                         lineChart.getData().remove(0);
                 } else
                     functionsGridPane.add(lineChart, 0, 0);
-                addModelChart(function);
+                addModelChart(equation.getFunction());
                 addInterpolatedChart();
             }
         });
-        gridPane.add(okButton, 1, 12);
+        gridPane.add(okButton, 1, 14);
     }
 
     private static boolean isInArray(double x, Double[] xArray) {

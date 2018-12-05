@@ -27,6 +27,10 @@ public enum Equation {
         }
     }
 
+    public Function getFunction() {
+        return function;
+    }
+
     @Override
     public String toString() {
         return this.equation;
