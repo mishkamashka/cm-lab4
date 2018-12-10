@@ -73,7 +73,7 @@ public class App extends Application {
 
         Scene scene = new Scene(pane);
 
-        primaryStage.setTitle("Interpolation App");
+        primaryStage.setTitle("Euler method app");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
