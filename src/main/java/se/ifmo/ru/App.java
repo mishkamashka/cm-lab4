@@ -124,27 +124,19 @@ public class App extends Application {
         gridPane.add(label, 0, 11);
 
         Pattern pattern = Pattern.compile("-\\d*|\\d*");
-        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-        });
+        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
 
         aTextField.setTextFormatter(formatter);
 
-        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-        });
+        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
         bTextField.setTextFormatter(formatter);
 
         Pattern pattern1 = Pattern.compile("-\\d*|-\\d*+\\.\\d*|\\d*|\\d+\\.\\d*");
-        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern1.matcher(change.getControlNewText()).matches() ? change : null;
-        });
+        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> pattern1.matcher(change.getControlNewText()).matches() ? change : null);
         y0TextField.setTextFormatter(formatter);
 
         Pattern pattern2 = Pattern.compile("\\d*|\\d+\\.\\d*");
-        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern2.matcher(change.getControlNewText()).matches() ? change : null;
-        });
+        formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> pattern2.matcher(change.getControlNewText()).matches() ? change : null);
         accuracyTextField.setTextFormatter(formatter);
 
         gridPane.add(aTextField, 0, 6);
